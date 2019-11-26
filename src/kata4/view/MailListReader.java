@@ -10,7 +10,6 @@ import java.util.List;
 import kata4.model.Mail;
 
 public class MailListReader {
-    
     public static List<Mail> read(String fileName) {
         List<Mail> list = new ArrayList<>();
         try{

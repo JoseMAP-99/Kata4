@@ -1,5 +1,6 @@
-package kata4;
+package kata4.view;
 
+import kata4.model.Histogram;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
@@ -9,10 +10,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 
-public class HistogramDisplay extends ApplicationFrame {
+public class HistogramDisplay extends ApplicationFrame{
     private final Histogram<String> histogram;
-    
-    
+
     public HistogramDisplay(Histogram histogram) {
         super("HISTOGRAMA");
         this.histogram = histogram;
@@ -20,37 +20,28 @@ public class HistogramDisplay extends ApplicationFrame {
         this.pack();
     }
     
-    public void execute() {
+    public void execute(){
         setVisible(true);
     }
-    
-    private JPanel createPanel(){
-        ChartPanel chartPanel = new ChartPanel(createChart(createDataset()));
-        chartPanel.setPreferredSize(new Dimension(500, 400));
+    private JPanel createPanel() {
+        ChartPanel chartPanel = new ChartPanel(createChart(createDataSet()));        
+        chartPanel.setPreferredSize(new Dimension(500,400));
         return chartPanel;
     }
     
-    private JFreeChart createChart(DefaultCategoryDataset dataSet){
+    public JFreeChart createChart(DefaultCategoryDataset dataset){
         JFreeChart chart = ChartFactory.createBarChart("Histograma JFreeChart",
-                                                        "Domino email",
-                                                        "Nº de emails",
-                                                        dataSet, 
-                                                        PlotOrientation.VERTICAL,
-                                                        false,
-                                                        false, 
-                                                        rootPaneCheckingEnabled);
+                "Dominios email", "Nº de emails", dataset, PlotOrientation.VERTICAL,
+                false, false, rootPaneCheckingEnabled);
         return chart;
     }
     
-    private DefaultCategoryDataset createDataset(){
-        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-        for (String key : histogram.keySet()){
-            dataSet.addValue(histogram.get(key), "", key);
-        }
-        
-        //dataSet.addValue(300, "", "ulpgc.es");
-        //dataSet.addValue(400, "", "dis.ulpgc.es");
-        //dataSet.addValue(200, "", "gmail.com");
-        return dataSet;
+    private DefaultCategoryDataset createDataSet(){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        histogram.keySet().forEach((key) -> {
+            dataset.addValue(histogram.get(key), "", key);
+            //Aquí iban todos los addValues de la versión 1.
+        });
+        return dataset;
     }
 }
